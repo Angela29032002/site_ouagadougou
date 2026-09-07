@@ -6,7 +6,7 @@ if (!isset($_SESSION['utilisateur'])) {
     exit;
 }
 
-require_once 'includes/confiig.php';
+require_once 'includes/config.php';
 
 $success = "";
 $error = "";

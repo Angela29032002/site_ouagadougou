@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/confiig.php';
+require_once 'includes/config.php';
 
 $success = "";
 $error = "";
@@ -22,13 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->fetch()) {
                 $error = "⚠️ Cet email est déjà utilisé.";
             } else {
-                // Insérer dans la base (mot de passe en clair ici)
+                // Hasher le mot de passe pour la securite
+                $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
                 $stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe, telephone)
                                        VALUES (:nom, :email, :mot_de_passe, :telephone)");
                 $stmt->execute([
                     'nom' => $nom,
                     'email' => $email,
-                    'mot_de_passe' => $mot_de_passe,
+                    'mot_de_passe' => $mot_de_passe_hash,
                     'telephone' => $telephone
                 ]);
 

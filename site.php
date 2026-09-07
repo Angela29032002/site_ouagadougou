@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/confiig.php';
+require_once 'includes/config.php';
 include 'includes/header.php';
 
 // Vérifie si l'ID est passé dans l'URL

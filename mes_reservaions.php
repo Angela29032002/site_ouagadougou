@@ -7,7 +7,7 @@ if (!isset($_SESSION['utilisateur'])) {
     exit;
 }
 
-require_once 'includes/confiig.php';
+require_once 'includes/config.php';
 
 $id_utilisateur = $_SESSION['utilisateur']['id'];
 

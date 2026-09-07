@@ -1,0 +1,38 @@
+# Render Blueprint - Ouagadougou Tourisme
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: ouagadougou-tourisme
+    runtime: docker
+    repo: https://github.com/Angela29032002/site_ouagadougou
+    branch: main
+    plan: free
+    healthCheckPath: /index.php
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ouaga-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: ouaga-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: ouaga-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: ouaga-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: ouaga-db
+          property: password
+
+databases:
+  - name: ouaga-db
+    plan: free
+    databaseName: ouaga_tourisme
+    user: ouaga_user

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'includes/confiig.php';
+require_once 'includes/config.php';
 
 $error = "";
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && $mot_de_passe === $user['mot_de_passe']) {
+        if ($user && password_verify($mot_de_passe, $user['mot_de_passe'])) {
             // Connexion réussie
             $_SESSION['utilisateur'] = [
                 'id' => $user['id'],
