@@ -2,9 +2,8 @@
 /**
  * Script d'initialisation de la base de donnees
  * Execute automatiquement au premier demarrage
+ * NOTE: Ce fichier est inclus depuis config.php, $pdo est deja disponible
  */
-
-require_once __DIR__ . '/config.php';
 
 function initializeDatabase($pdo) {
     try {
