@@ -87,38 +87,41 @@ INSERT INTO sites (nom_site, image_path, description, historique) VALUES
  'Parc d''attractions et de loisirs familial, le FASO Parc offre des activites recreatives pour petits et grands dans un cadre agreable.',
  'Ouvert en 2005, ce parc moderne contribue au developpement des loisirs et du tourisme local.');
 
--- Insertion des images supplementaires
+-- Insertion des images supplementaires (utiliser des images existantes)
 INSERT INTO images_sites (site_id, image_path) VALUES
-(1, 'pdc1.jpg'),
+(1, 'pdc3.jpg'),
 (2, 'musee2.jpg'),
-(3, 'mhn2.jpg'),
-(4, 'pbw2.jpg');
+(2, 'musee3.jpg'),
+(3, 'heros1.jpg'),
+(3, 'heros2.jpg'),
+(4, 'pbw2.jpg'),
+(4, 'bangrweoogo.jpg');
 
--- Insertion des hotels partenaires
+-- Insertion des hotels partenaires (avec images existantes)
 INSERT INTO hotels (nom_hotel, adresse, description, image_path, etoiles, prix_moyen) VALUES
 ('Hotel Splendid', 'Avenue Kwame Nkrumah, Ouagadougou',
  'Hotel 4 etoiles au coeur de la capitale, offrant confort moderne et service impeccable. Piscine, restaurant gastronomique et centre de conferences.',
- 'hotel-splendid.jpg', 4, 85000),
+ 'splendid.jpg', 4, 85000),
 
 ('Laico Hotel Ouagadougou', 'Boulevard Charles de Gaulle, Ouagadougou',
  'Le plus grand hotel de Ouagadougou avec 150 chambres. Vue panoramique sur la ville, spa et salle de sport.',
- 'laico-hotel.jpg', 5, 120000),
+ 'laico.jpg', 5, 120000),
 
 ('Hotel Palm Beach', 'Zone du Bois, Ouagadougou',
  'Hotel familial avec jardin tropical et piscine. Ideal pour les sejours en famille. Restaurant avec cuisine locale et internationale.',
- 'palm-beach.jpg', 3, 45000),
+ 'palm.jpg', 3, 45000),
 
-('Residence Hotelieres OK Inn', 'Secteur 4, Ouagadougou',
+('Hotel Silmande', 'Secteur 4, Ouagadougou',
  'Appartements equipes pour longs sejours. Cuisine, salon et chambre separee. Proche du centre-ville.',
- 'ok-inn.jpg', 3, 35000),
+ 'silmande.jpg', 3, 35000),
 
-('Hotel Yibi', 'Avenue de l''Independance, Ouagadougou',
+('Hotel Azalai', 'Avenue de l''Independance, Ouagadougou',
  'Hotel boutique moderne avec design contemporain africain. Rooftop bar avec vue sur la ville.',
- 'hotel-yibi.jpg', 4, 75000),
+ 'azalai.jpg', 4, 75000),
 
 ('Bravia Hotel', 'Ouaga 2000, Ouagadougou',
  'Hotel d''affaires dans le quartier moderne de Ouaga 2000. Salles de reunion, wifi haut debit et navette aeroport.',
- 'bravia-hotel.jpg', 4, 90000);
+ 'bravia.jpg', 4, 90000);
 
 -- Creer un utilisateur admin de demonstration (mot de passe: admin123)
 INSERT INTO utilisateurs (nom, email, mot_de_passe, telephone) VALUES

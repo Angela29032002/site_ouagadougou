@@ -30,7 +30,11 @@ try {
     require_once __DIR__ . '/init_db.php';
 
 } catch (PDOException $e) {
-    // Temporairement afficher l'erreur pour debug
-    die("Erreur DB: " . $e->getMessage() . " | Host: $host | DB: $dbname");
+    // En production, ne pas afficher les details de l'erreur
+    if (getenv('DB_HOST')) {
+        die("Erreur de connexion a la base de donnees. Veuillez reessayer plus tard.");
+    } else {
+        die("Erreur de connexion : " . $e->getMessage());
+    }
 }
 ?>
