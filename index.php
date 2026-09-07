@@ -1,40 +1,55 @@
 <?php
-// Affichage des erreurs pour débogage
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include 'includes/header.php';
 ?>
 
 <section>
-  <h2>Bienvenue à Ouagadougou</h2>
-  <p style="margin-top: 10px;">
+  <h2>Bienvenue a Ouagadougou</h2>
+
+  <p style="text-align: center; max-width: 800px; margin: 0 auto 20px;">
     Capitale du Burkina Faso, Ouagadougou est une ville dynamique au riche patrimoine culturel et historique.
-    Elle abrite des monuments emblématiques, des espaces naturels préservés, ainsi qu’une vie artisanale foisonnante.
+    Elle abrite des monuments emblematiques, des espaces naturels preserves, ainsi qu'une vie artisanale foisonnante.
   </p>
 
-  <p style="margin-top: 15px;">
-    Explorez les merveilles touristiques de la ville, admirez ses sites, découvrez ses trésors artisanaux et réservez un hébergement directement depuis ce portail.
+  <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+    Explorez les merveilles touristiques de la ville, admirez ses sites, decouvrez ses tresors artisanaux
+    et reservez un hebergement directement depuis ce portail.
   </p>
 
-  <!-- Zone d'affichage des images -->
   <div class="slideshow-container">
-    <img id="slideshow" src="images/pbw1.jpg" alt="Slideshow Ouaga" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-top: 20px;">
+    <img id="slideshow" src="images/pbw1.jpg" alt="Slideshow Ouagadougou">
+  </div>
+
+  <div class="site-grid" style="margin-top: 50px;">
+    <div class="site-card">
+      <img src="images/musee1.jpg" alt="Patrimoine">
+      <h3>Patrimoine Culturel</h3>
+      <p>Decouvrez les sites historiques et monuments qui font la fierte du Burkina Faso.</p>
+      <a href="patrimoine.php" class="button">Explorer</a>
+    </div>
+
+    <div class="site-card">
+      <img src="images/laico.jpg" alt="Hotels">
+      <h3>Hotels & Hebergements</h3>
+      <p>Trouvez l'hotel ideal pour votre sejour a Ouagadougou parmi notre selection.</p>
+      <a href="<?= isset($_SESSION['utilisateur']) ? 'hotels.php' : 'login.php' ?>" class="button">Reserver</a>
+    </div>
+
+    <div class="site-card">
+      <img src="images/artisanat.jpg" alt="Galerie">
+      <h3>Galerie Photos</h3>
+      <p>Admirez les plus belles images de Ouagadougou et de ses environs.</p>
+      <a href="galerie.php" class="button">Voir</a>
+    </div>
   </div>
 
   <script>
-    // ✅ Liste des images avec virgules correctement placées
     const images = [
       "images/pbw1.jpg",
       "images/pbw2.jpg",
-      //"images/photo0jpg.jpg",
       "images/pdc.jpg",
-      "images/pdc1.jpg",
       "images/musee1.jpg",
       "images/musee2.jpg",
       "images/mhn1.jpg",
-      "images/mhn2.jpg",
       "images/monument-ouaga.jpg",
       "images/Le-Faso-Parc.jpg"
     ];
@@ -58,9 +73,6 @@ include 'includes/header.php';
         slideshow.src = images[newIndex];
         lastIndex = newIndex;
         slideshow.classList.add("visible");
-
-        // Optional debug:
-        // console.log("Nouvelle image :", images[newIndex]);
       }, 500);
     }
 
@@ -70,7 +82,7 @@ include 'includes/header.php';
       slideshow.classList.add("visible");
     };
 
-    setInterval(changeImage, 3000);
+    setInterval(changeImage, 4000);
   </script>
 </section>
 

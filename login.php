@@ -2,6 +2,12 @@
 session_start();
 require_once 'includes/config.php';
 
+// Rediriger si deja connecte
+if (isset($_SESSION['utilisateur'])) {
+    header('Location: hotels.php');
+    exit;
+}
+
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -14,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($mot_de_passe, $user['mot_de_passe'])) {
-            // Connexion réussie
             $_SESSION['utilisateur'] = [
                 'id' => $user['id'],
                 'nom' => $user['nom'],
@@ -26,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Email ou mot de passe incorrect.";
         }
     } catch (PDOException $e) {
-        $error = "Erreur de connexion à la base : " . $e->getMessage();
+        $error = "Erreur de connexion. Veuillez reessayer.";
     }
 }
 ?>
@@ -34,23 +39,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'includes/header.php'; ?>
 
 <section>
-  <h2>Connexion à l’espace utilisateur</h2>
-
-  <?php if ($error): ?>
-    <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-  <?php endif; ?>
+  <h2>Connexion</h2>
 
   <form method="POST" action="login.php">
-    <label for="email">Adresse e-mail :</label>
-    <input type="email" name="email" id="email" required>
+    <?php if ($error): ?>
+      <p style="color: #e74c3c; background: #fdecea; padding: 12px; border-radius: 8px; text-align: center;">
+        <?= htmlspecialchars($error) ?>
+      </p>
+    <?php endif; ?>
 
-    <label for="mot_de_passe">Mot de passe :</label>
-    <input type="password" name="mot_de_passe" id="mot_de_passe" required>
+    <label for="email">Adresse e-mail</label>
+    <input type="email" name="email" id="email" placeholder="votre@email.com" required>
+
+    <label for="mot_de_passe">Mot de passe</label>
+    <input type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Votre mot de passe" required>
 
     <button type="submit">Se connecter</button>
 
-    <p>Pas de compte ? <a href="register.php">Créez-en un</a></p>
-
+    <p>Pas encore de compte ? <a href="register.php">Creer un compte</a></p>
   </form>
 </section>
 

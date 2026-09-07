@@ -1,8 +1,9 @@
 <?php
-// Démarrage de session si besoin
+// Demarrage de session si besoin
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+$currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 
 <!DOCTYPE html>
@@ -10,30 +11,40 @@ if (session_status() === PHP_SESSION_NONE) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ouagadougou Tourisme</title>
+  <meta name="description" content="Decouvrez Ouagadougou, capitale du Burkina Faso. Sites patrimoniaux, hotels et reservations.">
+  <meta name="theme-color" content="#005a87">
+  <title>Ouagadougou Tourisme - Decouvrez le Burkina Faso</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <h1>Découvrir Ouagadougou</h1>
+  <div class="header-top">
+    <div class="logo">
+      <h1>Decouvrir Ouagadougou</h1>
+    </div>
   </div>
   <nav>
     <ul class="nav-links">
-      <li><a href="index.php">Accueil</a></li>
-      <li><a href="patrimoine.php">Patrimoine</a></li>
-      <li><a href="login.php">Réservation d'hôtel</a></li>
-      <li><a href="galerie.php">Galerie</a></li>
+      <li><a href="index.php" <?= $currentPage === 'index.php' ? 'style="background: rgba(255,255,255,0.2);"' : '' ?>>Accueil</a></li>
+      <li><a href="patrimoine.php" <?= $currentPage === 'patrimoine.php' || $currentPage === 'site.php' ? 'style="background: rgba(255,255,255,0.2);"' : '' ?>>Patrimoine</a></li>
+      <li><a href="<?= isset($_SESSION['utilisateur']) ? 'hotels.php' : 'login.php' ?>" <?= in_array($currentPage, ['hotels.php', 'login.php', 'reservation.php']) ? 'style="background: rgba(255,255,255,0.2);"' : '' ?>>Hotels</a></li>
+      <li><a href="galerie.php" <?= $currentPage === 'galerie.php' ? 'style="background: rgba(255,255,255,0.2);"' : '' ?>>Galerie</a></li>
+      <?php if (isset($_SESSION['utilisateur'])): ?>
+        <li><a href="logout.php">Deconnexion</a></li>
+      <?php else: ?>
+        <li><a href="login.php">Connexion</a></li>
+      <?php endif; ?>
     </ul>
   </nav>
 
-  <?php if (isset($_SESSION['utilisateur']) && basename($_SERVER['PHP_SELF']) === 'hotels.php'): ?>
-  <div class="profil-utilisateur" style="background: #005A80; padding: 10px 20px; margin-top: 10px; color: black; border-radius: 8px;">
-    <p>👤 Bonjour, <?= htmlspecialchars($_SESSION['utilisateur']['nom']) ?> !</p>
-    <a href="mes_reservaions.php" style="text-decoration: none; color: black; font-weight: bold;">📋 Voir mes réservations</a>
+  <?php if (isset($_SESSION['utilisateur']) && in_array($currentPage, ['hotels.php', 'reservation.php', 'mes_reservations.php'])): ?>
+  <div class="profil-utilisateur">
+    <p>Bonjour, <?= htmlspecialchars($_SESSION['utilisateur']['nom']) ?> !</p>
+    <a href="mes_reservations.php">Mes reservations</a>
   </div>
-<?php endif; ?>
+  <?php endif; ?>
 
 </header>
 

@@ -1,5 +1,12 @@
 <?php
+session_start();
 require_once 'includes/config.php';
+
+// Rediriger si deja connecte
+if (isset($_SESSION['utilisateur'])) {
+    header('Location: hotels.php');
+    exit;
+}
 
 $success = "";
 $error = "";
@@ -12,17 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mot_de_passe2 = trim($_POST['mot_de_passe2']);
 
     if ($mot_de_passe !== $mot_de_passe2) {
-        $error = "❌ Les mots de passe ne correspondent pas.";
+        $error = "Les mots de passe ne correspondent pas.";
+    } elseif (strlen($mot_de_passe) < 6) {
+        $error = "Le mot de passe doit contenir au moins 6 caracteres.";
     } else {
         try {
-            // Vérifier si l’email existe déjà
             $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = :email");
             $stmt->execute(['email' => $email]);
 
             if ($stmt->fetch()) {
-                $error = "⚠️ Cet email est déjà utilisé.";
+                $error = "Cet email est deja utilise.";
             } else {
-                // Hasher le mot de passe pour la securite
                 $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
 
                 $stmt = $pdo->prepare("INSERT INTO utilisateurs (nom, email, mot_de_passe, telephone)
@@ -34,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'telephone' => $telephone
                 ]);
 
-                $success = "✅ Compte créé avec succès ! <a href='login.php'>Se connecter</a>";
+                $success = "Compte cree avec succes !";
             }
         } catch (PDOException $e) {
-            $error = "Erreur lors de l'inscription : " . $e->getMessage();
+            $error = "Erreur lors de l'inscription. Veuillez reessayer.";
         }
     }
 }
@@ -46,31 +53,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'includes/header.php'; ?>
 
 <section>
-  <h2>Créer un compte</h2>
-
-  <?php if ($success): ?>
-    <p style="color: green;"><?= $success ?></p>
-  <?php elseif ($error): ?>
-    <p style="color: red;"><?= $error ?></p>
-  <?php endif; ?>
+  <h2>Creer un compte</h2>
 
   <form method="POST" action="register.php">
-    <label for="nom">Nom complet :</label>
-    <input type="text" id="nom" name="nom" required>
+    <?php if ($success): ?>
+      <p style="color: #155724; background: #d4edda; padding: 12px; border-radius: 8px; text-align: center;">
+        <?= $success ?> <a href="login.php" style="color: #005a87; font-weight: bold;">Se connecter</a>
+      </p>
+    <?php elseif ($error): ?>
+      <p style="color: #721c24; background: #f8d7da; padding: 12px; border-radius: 8px; text-align: center;">
+        <?= htmlspecialchars($error) ?>
+      </p>
+    <?php endif; ?>
 
-    <label for="email">Adresse e-mail :</label>
-    <input type="email" id="email" name="email" required>
+    <label for="nom">Nom complet</label>
+    <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
-    <label for="telephone">Téléphone :</label>
-    <input type="text" id="telephone" name="telephone" required>
+    <label for="email">Adresse e-mail</label>
+    <input type="email" id="email" name="email" placeholder="votre@email.com" required>
 
-    <label for="mot_de_passe">Mot de passe :</label>
-    <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+    <label for="telephone">Telephone</label>
+    <input type="text" id="telephone" name="telephone" placeholder="+226 70 00 00 00" required>
 
-    <label for="mot_de_passe2">Confirmer le mot de passe :</label>
-    <input type="password" id="mot_de_passe2" name="mot_de_passe2" required>
+    <label for="mot_de_passe">Mot de passe</label>
+    <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Minimum 6 caracteres" required>
 
-    <button type="submit">Créer le compte</button>
+    <label for="mot_de_passe2">Confirmer le mot de passe</label>
+    <input type="password" id="mot_de_passe2" name="mot_de_passe2" placeholder="Confirmez votre mot de passe" required>
+
+    <button type="submit">Creer mon compte</button>
+
+    <p>Deja inscrit ? <a href="login.php">Se connecter</a></p>
   </form>
 </section>
 
