@@ -11,9 +11,12 @@ $dbname = getenv('DB_NAME') ?: 'ouaga_tourisme';
 $user = getenv('DB_USER') ?: 'postgres';
 $password = getenv('DB_PASSWORD') ?: '123456789';
 
+// En production (Render), utiliser SSL
+$sslmode = getenv('DB_HOST') ? ';sslmode=require' : '';
+
 try {
     $pdo = new PDO(
-        "pgsql:host=$host;port=$port;dbname=$dbname",
+        "pgsql:host=$host;port=$port;dbname=$dbname$sslmode",
         $user,
         $password,
         [
@@ -22,6 +25,10 @@ try {
             PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
+
+    // Initialiser la base de donnees si necessaire (tables du site Ouagadougou)
+    require_once __DIR__ . '/init_db.php';
+
 } catch (PDOException $e) {
     // En production, ne pas afficher les details de l'erreur
     if (getenv('DB_HOST')) {
@@ -29,7 +36,5 @@ try {
     } else {
         die("Erreur de connexion : " . $e->getMessage());
     }
-    // Initialiser la base de donnees si necessaire
-    require_once __DIR__ . '/init_db.php';
 }
 ?>
